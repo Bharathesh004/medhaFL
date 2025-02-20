@@ -344,21 +344,37 @@ const Register = () => {
       setPaymentLoading(false);
     }
   };
+// Function to download payment details as PDF
+const downloadPaymentDetails = () => {
+  const input = document.getElementById("payment-success-popup");
 
-   // Function to download payment details as PDF
-   const downloadPaymentDetails = () => {
-    const input = document.getElementById("payment-success-popup");
+  html2canvas(input, { scale: 2 }).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("p", "mm", "a4");
 
-    html2canvas(input, { scale: 2 }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const pdf = new jsPDF("p", "mm", "a4");
-      const imgWidth = 210; // A4 width in mm
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const imgWidth = 210; // A4 width in mm
+    const pageHeight = 297; // A4 height in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-      pdf.save("payment_details.pdf");
-    });
-  };
+    let heightLeft = imgHeight;
+    let position = 0;
+
+    // Add the first page
+    pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+    heightLeft -= pageHeight;
+
+    // Add extra pages if needed
+    while (heightLeft > 0) {
+      position -= pageHeight; // Move the position to the next page
+      pdf.addPage();
+      pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+    }
+
+    pdf.save("payment_details.pdf");
+  });
+};
+
 
   // Payment success popup
   if (paymentSuccess) {
