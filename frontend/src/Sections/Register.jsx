@@ -412,22 +412,12 @@ const downloadPaymentDetails = () => {
               fontWeight: "bold",
               color: "white",
               marginBottom: "20px",
-              fontFamily: "'Roboto', sans-serif",
-            }}
-          >
-            Registration
-          </h1>
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "18px",
-              color: "lightgreen",
-              marginBottom: "20px",
-              fontFamily: "'Open Sans', sans-serif",
+              fontFamily: 'Avengers',
             }}
           >
             Registration Details
-          </p> 
+          </h1>
+          
 
           <div style={{ padding: "10px", color: "white" }}>
             <p><strong style={{ color: "red" }}>Amount to be Paid:</strong> ₹{registeredDetails.user.totalAmount}</p>
